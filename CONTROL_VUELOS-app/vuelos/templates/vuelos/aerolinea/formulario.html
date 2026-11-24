@@ -1,0 +1,11 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}{% if aerolinea %}Editar aerol&iacute;nea{% else %}Crear aerol&iacute;nea{% endif %}{% endblock %}
+{% block content %}
+<h2>{% if aerolinea %}Editar aerol&iacute;nea{% else %}Nueva aerol&iacute;nea{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+    <a href="{% url 'aerolinea_list' %}">Cancelar</a>
+</form>
+{% endblock %}

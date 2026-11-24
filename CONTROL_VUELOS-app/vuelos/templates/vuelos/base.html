@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Control de vuelos{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Control de vuelos</h1>
+        <nav>
+            <a href="{% url 'home' %}">Inicio</a> |
+            <a href="{% url 'aerolinea_list' %}">Aerol&iacute;neas</a>
+        </nav>
+        <hr>
+    </header>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+    <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

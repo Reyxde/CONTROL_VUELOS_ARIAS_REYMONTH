@@ -1,0 +1,39 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Listado de aviones{% endblock %}
+{% block content %}
+<h2>Listado de aviones</h2>
+{% if perms.vuelos.add_avion %}
+    <p><a href="{% url 'avion_create' %}">Nuevo avión</a></p>
+{% endif %}
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+                <th>Matrícula</th>
+                <th>Modelo</th>
+                <th>Aerolínea</th>
+                <th>Capacidad</th>
+                <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for avion in aviones %}
+            <tr>
+                <td>{{ avion.matricula }}</td>
+                <td>{{ avion.modelo }}</td>
+                <td><a href="{{ avion.aerolinea.get_absolute_url }}">{{ avion.aerolinea.nombre }}</a></td>
+                <td>{{ avion.capacidad }}</td>
+                <td>{{ avion.get_estado_display }}</td>
+                <td>
+                    <a href="{{ avion.get_absolute_url }}">Ver</a>
+                    {% if perms.vuelos.change_avion %}<a href="{% url 'avion_update' avion.pk %}">Editar</a>{% endif %}
+                    {% if perms.vuelos.delete_avion %}<a href="{% url 'avion_delete' avion.pk %}">Eliminar</a>{% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">No hay aviones registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ aviones|length }}</p>
+{% endblock %}

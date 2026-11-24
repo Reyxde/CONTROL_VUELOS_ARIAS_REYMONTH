@@ -1,0 +1,28 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Aerol&iacute;neas | Control de vuelos{% endblock %}
+{% block content %}
+<h2>Listado de aerol&iacute;neas</h2>
+<p><a href="{% url 'aerolinea_create' %}">Registrar aerol&iacute;nea</a></p>
+<table border="1" cellpadding="6">
+    <thead>
+        <tr><th>C&oacute;digo</th><th>Nombre</th><th>Pa&iacute;s</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        {% for aerolinea in aerolineas %}
+            <tr>
+                <td>{{ aerolinea.codigo }}</td>
+                <td>{{ aerolinea.nombre }}</td>
+                <td>{{ aerolinea.pais }}</td>
+                <td>
+                    <a href="{{ aerolinea.get_absolute_url }}">Ver</a>
+                    <a href="{% url 'aerolinea_update' aerolinea.pk %}">Editar</a>
+                    <a href="{% url 'aerolinea_delete' aerolinea.pk %}">Eliminar</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No hay aerol&iacute;neas registradas.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ aerolineas|length }}</p>
+{% endblock %}

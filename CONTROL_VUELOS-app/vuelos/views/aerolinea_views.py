@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
 
 from vuelos.forms import AerolineaForm
@@ -59,7 +60,11 @@ def aerolinea_update(request, pk):
 def aerolinea_delete(request, pk):
     aerolinea = get_object_or_404(Aerolinea, pk=pk)
     if request.method == 'POST':
-        aerolinea.delete()
+        try:
+            aerolinea.delete()
+        except ProtectedError:
+            messages.error(request, 'No se puede eliminar: tiene aviones asociados.')
+            return redirect(aerolinea)
         messages.success(request, 'Aerolínea eliminada correctamente.')
         return redirect('aerolinea_list')
     return render(

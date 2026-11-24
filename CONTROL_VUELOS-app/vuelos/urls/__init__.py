@@ -1,1 +1,6 @@
-﻿from .aerolinea_urls import urlpatterns
+from django.urls import include, path
+
+urlpatterns = [
+    path('', include('vuelos.urls.aerolinea_urls')),
+    path('', include('vuelos.urls.avion_urls')),
+]

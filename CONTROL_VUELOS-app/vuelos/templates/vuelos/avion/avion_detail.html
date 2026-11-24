@@ -1,0 +1,18 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Detalle del avión{% endblock %}
+{% block content %}
+<h2>Detalle del avión: {{ avion }}</h2>
+<ul>
+    <li><strong>Matrícula:</strong> {{ avion.matricula }}</li>
+    <li><strong>Modelo:</strong> {{ avion.modelo }}</li>
+    <li><strong>Aerolínea:</strong> <a href="{{ avion.aerolinea.get_absolute_url }}">{{ avion.aerolinea }}</a></li>
+    <li><strong>Capacidad:</strong> {{ avion.capacidad }} pasajeros</li>
+    <li><strong>Fecha de fabricación:</strong> {{ avion.fecha_fabricacion|date:"d/m/Y" }}</li>
+    <li><strong>Estado:</strong> {{ avion.get_estado_display }}</li>
+</ul>
+<p>
+    {% if perms.vuelos.change_avion %}<a href="{% url 'avion_update' avion.pk %}">Editar</a>{% endif %}
+    {% if perms.vuelos.delete_avion %}<a href="{% url 'avion_delete' avion.pk %}">Eliminar</a>{% endif %}
+</p>
+<p><a href="{% url 'avion_list' %}">Volver al listado</a></p>
+{% endblock %}

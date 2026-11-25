@@ -2,23 +2,25 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
-
 from vuelos.forms import PasajeroForm
 from vuelos.models import Pasajero
 
-
+@login_required
+@permission_required('vuelos.view_pasajero', raise_exception=True)
 def pasajero_list(request):
     pasajeros = Pasajero.objects.all()
     return render(request, 'vuelos/pasajeros/pasajero_list.html',
                   {'pasajeros': pasajeros})
 
-
+@login_required
+@permission_required('vuelos.view_pasajero', raise_exception=True)
 def pasajero_detail(request, pk):
     pasajero = get_object_or_404(Pasajero, pk=pk)
     return render(request, 'vuelos/pasajeros/pasajero_detail.html',
                   {'pasajero': pasajero})
 
-
+@login_required
+@permission_required('vuelos.add_pasajero', raise_exception=True)
 def pasajero_create(request):
     if request.method == 'POST':
         form = PasajeroForm(request.POST)
@@ -31,7 +33,8 @@ def pasajero_create(request):
     return render(request, 'vuelos/pasajeros/formulario.html',
                   {'form': form})
 
-
+@login_required
+@permission_required('vuelos.change_pasajero', raise_exception=True)
 def pasajero_update(request, pk):
     pasajero = get_object_or_404(Pasajero, pk=pk)
     if request.method == 'POST':
@@ -45,6 +48,8 @@ def pasajero_update(request, pk):
     return render(request, 'vuelos/pasajeros/formulario.html',
                   {'form': form, 'pasajero': pasajero})
 
+@login_required
+@permission_required('vuelos.delete_pasajero', raise_exception=True)
 def pasajero_delete(request, pk):
     pasajero = get_object_or_404(Pasajero, pk=pk)
     if request.method == 'POST':

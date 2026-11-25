@@ -20,7 +20,7 @@ AEROLINEAS = [
     ('American Airlines', 'AA', 'Estados Unidos'),
 ]
 
-AERONAVES = [  # matrícula, modelo, capacidad, fabricación, estado, IATA
+AVIONES = [  # matrícula, modelo, capacidad, fabricación, estado, IATA
     ('HC-AVA', 'Airbus A320', 180, date(2016, 3, 14), 'OPE', 'AV'),
     ('HC-LAT', 'Boeing 787-9', 290, date(2018, 7, 2), 'OPE', 'LA'),
     ('HC-COP', 'Boeing 737-800', 160, date(2014, 11, 20), 'OPE', 'CM'),
@@ -56,15 +56,15 @@ class Command(BaseCommand):
         aerolineas = {}
         for nombre, iata, pais in AEROLINEAS:
             aerolineas[iata], _ = Aerolinea.objects.update_or_create(
-                codigo_iata=iata, defaults={'nombre': nombre, 'pais': pais})
-        aeronaves = []
-        for mat, modelo, cap, fab, estado, iata in AERONAVES:
+                codigo=iata, defaults={'nombre': nombre, 'pais': pais})
+        aviones = []
+        for mat, modelo, cap, fab, estado, iata in AVIONES:
             obj, _ = Avion.objects.update_or_create(
                 matricula=mat, defaults={
                     'modelo': modelo, 'capacidad': cap,
                     'fecha_fabricacion': fab, 'estado': estado,
                     'aerolinea': aerolineas[iata]})
-            aeronaves.append(obj)
+            aviones.append(obj)
         pasajeros = []
         for nom, ape, doc, nac, nacim in PASAJEROS:
             obj, _ = Pasajero.objects.update_or_create(
@@ -75,7 +75,7 @@ class Command(BaseCommand):
 
         ahora = timezone.now().replace(minute=0, second=0, microsecond=0)
         vuelos = [  # código, origen, destino, +h salida, duración h, estado,
-                    # puerta, precio, aeronave, creador, pasajeros
+                    # puerta, precio, avion, creador, pasajeros
             ('AV101', 'Guayaquil', 'Bogotá', 3, 2, 'PRO', 'A1', '189.90', 0, 'operador1', [0, 1]),
             ('LA2045', 'Quito', 'Santiago', 5, 5, 'EMB', 'B3', '420.00', 1, 'operador1', [2, 3, 4]),
             ('CM330', 'Guayaquil', 'Panamá', 8, 3, 'PRO', 'A4', '265.50', 2, 'operador2', [5, 6]),
@@ -90,7 +90,7 @@ class Command(BaseCommand):
                     'origen': ori, 'destino': des, 'fecha_salida': salida,
                     'fecha_llegada': salida + timedelta(hours=dur),
                     'estado': est, 'puerta': pue, 'precio_base': pre,
-                    'aeronave': aeronaves[ae], 'creado_por': usuarios[cre]})
+                    'avion': aviones[ae], 'creado_por': usuarios[cre]})
             vuelo.pasajeros.set([pasajeros[i] for i in pas])
         self.stdout.write(self.style.SUCCESS(
             'Datos de prueba cargados (ver README para las credenciales).'))

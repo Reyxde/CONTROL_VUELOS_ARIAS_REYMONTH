@@ -27,7 +27,7 @@ class Vuelo(models.Model):
     precio_base = models.DecimalField(
         'precio base (USD)', max_digits=8, decimal_places=2)
     
-    aeronave = models.ForeignKey(
+    avion = models.ForeignKey(
         Avion, on_delete=models.PROTECT, related_name='vuelos')
     pasajeros = models.ManyToManyField(
         Pasajero, related_name='vuelos', blank=True)

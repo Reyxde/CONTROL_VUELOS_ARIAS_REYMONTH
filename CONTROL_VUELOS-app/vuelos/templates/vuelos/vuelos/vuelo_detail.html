@@ -10,7 +10,7 @@
     <li><strong>Estado:</strong> {{ vuelo.get_estado_display }}</li>
     <li><strong>Puerta:</strong> {{ vuelo.puerta|default:"Por asignar" }}</li>
     <li><strong>Precio base:</strong> ${{ vuelo.precio_base }}</li>
-    <li><strong>Aeronave:</strong> <a href="{{ vuelo.avion.get_absolute_url }}">{{ vuelo.avion }}</a></li>
+    <li><strong>Avión:</strong> <a href="{{ vuelo.avion.get_absolute_url }}">{{ vuelo.avion }}</a></li>
     <li><strong>Aerolínea:</strong> <a href="{{ vuelo.avion.aerolinea.get_absolute_url }}">{{ vuelo.avion.aerolinea }}</a></li>
     <li><strong>Creado por:</strong> {{ vuelo.creado_por.username|default:"—" }}</li>
 </ul>

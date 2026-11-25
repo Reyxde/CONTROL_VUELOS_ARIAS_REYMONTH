@@ -1,13 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Control de Vuelos{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'vuelos/css/estilos.css' %}">
 </head>
 <body>
     <header>
-        <h1> Control de Vuelos del Aeropuerto</h1>
+        <h1>Control de Vuelos del Aeropuerto</h1>
         <nav>
             {% if user.is_authenticated %}
                 <a href="{% url 'home' %}">Inicio</a> |
@@ -15,8 +17,8 @@
                 {% if perms.vuelos.view_avion %}<a href="{% url 'avion_list' %}">Aviones</a> |{% endif %}
                 {% if perms.vuelos.view_aerolinea %}<a href="{% url 'aerolinea_list' %}">Aerolíneas</a> |{% endif %}
                 {% if perms.vuelos.view_pasajero %}<a href="{% url 'pasajero_list' %}">Pasajeros</a> |{% endif %}
-                Usuario: <strong>{{ user.get_full_name|default:user.username }}</strong>
-                <form method="post" action="{% url 'logout' %}" style="display:inline">
+                <span class="usuario">Usuario: <strong>{{ user.get_full_name|default:user.username }}</strong></span>
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
                     {% csrf_token %}
                     <button type="submit">Salir</button>
                 </form>
@@ -25,13 +27,12 @@
                 <a href="{% url 'registro' %}">Registrarse</a>
             {% endif %}
         </nav>
-        <hr>
     </header>
 
     {% if messages %}
-        <ul>
+        <ul class="messages">
             {% for message in messages %}
-                <li><strong>{{ message.tags|upper }}:</strong> {{ message }}</li>
+                <li class="{{ message.tags }}"><strong>{{ message.tags|upper }}:</strong> {{ message }}</li>
             {% endfor %}
         </ul>
     {% endif %}

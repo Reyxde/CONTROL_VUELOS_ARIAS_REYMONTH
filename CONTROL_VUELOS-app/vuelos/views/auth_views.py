@@ -7,6 +7,8 @@ from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 from vuelos.forms import RegistroForm
+from vuelos.forms import RegistroForm
+from vuelos.permisos import OPERADORES
 
 
 def registro_view(request):

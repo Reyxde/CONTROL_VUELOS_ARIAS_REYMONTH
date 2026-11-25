@@ -4,11 +4,13 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
-
 from vuelos.forms import VueloForm
 from vuelos.models import Vuelo
+from vuelos.permisos import puede_modificar_vuelo
 
 
+@login_required
+@permission_required('vuelos.view_vuelo', raise_exception=True)
 def vuelo_list(request):
     q = request.GET.get('q', '').strip()
     estado = request.GET.get('estado', '').strip()
@@ -28,8 +30,8 @@ def vuelo_list(request):
         'estados': Vuelo.Estado.choices,
     })
 
-
-
+@login_required
+@permission_required('vuelos.view_vuelo', raise_exception=True)
 def vuelo_detail(request, pk):
     vuelo = get_object_or_404(
         Vuelo.objects.select_related('aeronave__aerolinea', 'creado_por'),
@@ -40,7 +42,8 @@ def vuelo_detail(request, pk):
     })
 
 
-
+@login_required
+@permission_required('vuelos.add_vuelo', raise_exception=True)
 def vuelo_create(request):
     if request.method == 'POST':
         form = VueloForm(request.POST)
@@ -56,7 +59,8 @@ def vuelo_create(request):
     return render(request, 'vuelos/vuelos/formulario.html', {'form': form})
 
 
-
+@login_required
+@permission_required('vuelos.change_vuelo', raise_exception=True)
 def vuelo_update(request, pk):
     vuelo = get_object_or_404(Vuelo, pk=pk)
     if not puede_modificar_vuelo(request.user, vuelo):
@@ -73,7 +77,8 @@ def vuelo_update(request, pk):
                   {'form': form, 'vuelo': vuelo})
 
 
-
+@login_required
+@permission_required('vuelos.delete_vuelo', raise_exception=True)
 def vuelo_delete(request, pk):
     vuelo = get_object_or_404(Vuelo, pk=pk)
     if not puede_modificar_vuelo(request.user, vuelo):

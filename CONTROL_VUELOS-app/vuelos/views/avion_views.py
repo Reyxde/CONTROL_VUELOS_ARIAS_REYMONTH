@@ -1,25 +1,26 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import ProtectedError
 from django.shortcuts import get_object_or_404, redirect, render
-
 from vuelos.forms import AvionForm
 from vuelos.models import Avion
 
-
+@login_required
+@permission_required('vuelos.view_avion', raise_exception=True)
 def avion_list(request):
     aviones = Avion.objects.select_related('aerolinea').all()
     return render(request, 'vuelos/avion/avion_list.html',
                   {'aviones': aviones})
 
-
+@login_required
+@permission_required('vuelos.view_avion', raise_exception=True)
 def avion_detail(request, pk):
     avion = get_object_or_404(Avion, pk=pk)
     return render(request, 'vuelos/avion/avion_detail.html',
                   {'avion': avion})
 
-
-
+@login_required
+@permission_required('vuelos.add_avion', raise_exception=True)
 def avion_create(request):
     if request.method == 'POST':
         form = AvionForm(request.POST)
@@ -32,7 +33,8 @@ def avion_create(request):
     return render(request, 'vuelos/avion/formulario.html',
                   {'form': form})
 
-
+@login_required
+@permission_required('vuelos.change_avion', raise_exception=True)
 def avion_update(request, pk):
     avion = get_object_or_404(Avion, pk=pk)
     if request.method == 'POST':
@@ -46,8 +48,8 @@ def avion_update(request, pk):
     return render(request, 'vuelos/avion/formulario.html',
                   {'form': form, 'avion': avion})
 
-
-
+@login_required
+@permission_required('vuelos.delete_avion', raise_exception=True)
 def avion_delete(request, pk):
     avion = get_object_or_404(Avion, pk=pk)
     if request.method == 'POST':

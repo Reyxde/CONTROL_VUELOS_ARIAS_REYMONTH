@@ -52,4 +52,4 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.info(request, 'Sesión cerrada correctamente.')
-    return redirect(settings.LOGOUT_REDIRECT_URL)
+    return redirect(settings.LOGOUT_REDIRECT_URL or 'home')

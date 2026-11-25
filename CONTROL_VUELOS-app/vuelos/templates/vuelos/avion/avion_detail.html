@@ -1,7 +1,7 @@
 {% extends 'vuelos/base.html' %}
-{% block title %}Detalle del avión{% endblock %}
+{% block title %}Detalle de avion{% endblock %}
 {% block content %}
-<h2>Detalle del avión: {{ avion }}</h2>
+<h2>Detalle de avion: {{ avion }}</h2>
 <ul>
     <li><strong>Matrícula:</strong> {{ avion.matricula }}</li>
     <li><strong>Modelo:</strong> {{ avion.modelo }}</li>
@@ -10,9 +10,18 @@
     <li><strong>Fecha de fabricación:</strong> {{ avion.fecha_fabricacion|date:"d/m/Y" }}</li>
     <li><strong>Estado:</strong> {{ avion.get_estado_display }}</li>
 </ul>
+<h3>Vuelos asignados</h3>
+<ul>
+    {% for v in avion.vuelos.all %}
+        <li><a href="{{ v.get_absolute_url }}">{{ v }}</a> — {{ v.fecha_salida|date:"d/m/Y H:i" }}</li>
+    {% empty %}
+        <li>Sin vuelos asignados.</li>
+    {% endfor %}
+</ul>
 <p>
     {% if perms.vuelos.change_avion %}<a href="{% url 'avion_update' avion.pk %}">Editar</a>{% endif %}
     {% if perms.vuelos.delete_avion %}<a href="{% url 'avion_delete' avion.pk %}">Eliminar</a>{% endif %}
 </p>
-<p><a href="{% url 'avion_list' %}">Volver al listado</a></p>
+<p><a href="{% url 'avion_list' %}">← Volver al listado</a></p>
 {% endblock %}
+

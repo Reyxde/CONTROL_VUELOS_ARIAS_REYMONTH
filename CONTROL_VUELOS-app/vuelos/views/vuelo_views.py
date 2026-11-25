@@ -15,7 +15,7 @@ def vuelo_list(request):
     q = request.GET.get('q', '').strip()
     estado = request.GET.get('estado', '').strip()
     vuelos = Vuelo.objects.select_related(
-        'aeronave', 'aeronave__aerolinea', 'creado_por')
+        'avion', 'avion__aerolinea', 'creado_por')
     if q:
         vuelos = vuelos.filter(
             Q(codigo__icontains=q) | Q(origen__icontains=q)
@@ -23,7 +23,7 @@ def vuelo_list(request):
     if estado:
         vuelos = vuelos.filter(estado=estado)
     vuelos = list(vuelos)
-    for vuelo in vuelos:  # la plantilla usa esta marca para mostrar botones
+    for vuelo in vuelos:  
         vuelo.modificable = puede_modificar_vuelo(request.user, vuelo)
     return render(request, 'vuelos/vuelos/vuelo_list.html', {
         'vuelos': vuelos, 'q': q, 'estado': estado,
@@ -34,7 +34,7 @@ def vuelo_list(request):
 @permission_required('vuelos.view_vuelo', raise_exception=True)
 def vuelo_detail(request, pk):
     vuelo = get_object_or_404(
-        Vuelo.objects.select_related('aeronave__aerolinea', 'creado_por'),
+        Vuelo.objects.select_related('avion__aerolinea', 'creado_por'),
         pk=pk)
     return render(request, 'vuelos/vuelos/vuelo_detail.html', {
         'vuelo': vuelo,

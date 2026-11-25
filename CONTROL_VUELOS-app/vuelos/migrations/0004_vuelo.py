@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('estado', models.CharField(choices=[('PRO', 'Programado'), ('EMB', 'Embarcando'), ('VUE', 'En vuelo'), ('ATE', 'Aterrizado'), ('RET', 'Retrasado'), ('CAN', 'Cancelado')], default='PRO', max_length=3)),
                 ('puerta', models.CharField(blank=True, max_length=5, verbose_name='puerta de embarque')),
                 ('precio_base', models.DecimalField(decimal_places=2, max_digits=8, verbose_name='precio base (USD)')),
-                ('aeronave', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='vuelos', to='vuelos.avion')),
+                ('avion', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='vuelos', to='vuelos.avion')),
                 ('creado_por', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='vuelos_creados', to=settings.AUTH_USER_MODEL, verbose_name='creado por')),
                 ('pasajeros', models.ManyToManyField(blank=True, related_name='vuelos', to='vuelos.pasajero')),
             ],

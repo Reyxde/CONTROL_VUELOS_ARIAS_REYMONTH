@@ -100,11 +100,11 @@ class PermisosTests(BaseTest):
     def test_propiedad_edicion(self):
         url = reverse('vuelo_update', args=[self.vuelo.pk])
         self.client.login(username='op2', password='x')
-        self.assertEqual(self.client.get(url).status_code, 403)  # ajeno
+        self.assertEqual(self.client.get(url).status_code, 403)  
         self.client.login(username='op1', password='x')
-        self.assertEqual(self.client.get(url).status_code, 200)  # propio
+        self.assertEqual(self.client.get(url).status_code, 200)  
         self.client.login(username='adm', password='x')
-        self.assertEqual(self.client.get(url).status_code, 200)  # admin
+        self.assertEqual(self.client.get(url).status_code, 200)  
 
     def test_propiedad_borrado(self):
         url = reverse('vuelo_delete', args=[self.vuelo.pk])
@@ -134,13 +134,13 @@ class ReglasNegocioTests(BaseTest):
     def test_aerolinea_con_aviones_no_se_borra(self):
         self.client.login(username='adm', password='x')
         r = self.client.post(reverse('aerolinea_delete', args=[self.aerolinea.pk]))
-        self.assertEqual(r.status_code, 302)  # sin error 500
+        self.assertEqual(r.status_code, 302)  
         self.assertTrue(Aerolinea.objects.filter(pk=self.aerolinea.pk).exists())
 
     def test_capacidad_del_avion(self):
         self.client.login(username='adm', password='x')
         r = self.client.post(reverse('vuelo_create'), self.datos_vuelo(
-            pasajeros=[p.pk for p in self.pasajeros]))  # 3 > capacidad 2
+            pasajeros=[p.pk for p in self.pasajeros]))  
         self.assertEqual(r.status_code, 200)
         self.assertFalse(Vuelo.objects.filter(codigo='TA2').exists())
 

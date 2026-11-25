@@ -66,7 +66,7 @@ cd CONTROL_VUELOS_ARIAS_REYMONTH/CONTROL_VUELOS-app
 **2. Crear y activar el entorno virtual**
 
 ```bash
-python -m venv venv
+python3 -m venv venv
 venv\Scripts\activate          # Windows
 source venv/bin/activate       # Linux / macOS
 ```

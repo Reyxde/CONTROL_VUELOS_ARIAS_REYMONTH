@@ -1,0 +1,11 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Confirmar eliminación{% endblock %}
+{% block content %}
+<h2>Confirmar eliminación</h2>
+<p>¿Está seguro de que desea eliminar el vuelo «{{ vuelo }}»?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{{ vuelo.get_absolute_url }}">Cancelar</a>
+</form>
+{% endblock %}

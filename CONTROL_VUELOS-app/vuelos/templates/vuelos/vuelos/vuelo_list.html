@@ -1,0 +1,53 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Listado de vuelos{% endblock %}
+{% block content %}
+<h2>Listado de vuelos</h2>
+{% if perms.vuelos.add_vuelo %}
+    <p><a href="{% url 'vuelo_create' %}">Nuevo vuelo</a></p>
+{% endif %}
+<form method="get">
+    <input type="text" name="q" value="{{ q }}" placeholder="Código, origen o destino">
+    <select name="estado">
+        <option value="">Todos los estados</option>
+        {% for valor, etiqueta in estados %}
+            <option value="{{ valor }}" {% if estado == valor %}selected{% endif %}>{{ etiqueta }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Buscar</button>
+</form>
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+                <th>Código</th>
+                <th>Ruta</th>
+                <th>Salida</th>
+                <th>Avión</th>
+                <th>Estado</th>
+                <th>Creado por</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vuelo in vuelos %}
+            <tr>
+                <td><a href="{{ vuelo.get_absolute_url }}">{{ vuelo.codigo }}</a></td>
+                <td>{{ vuelo.origen }} → {{ vuelo.destino }}</td>
+                <td>{{ vuelo.fecha_salida|date:"d/m/Y H:i" }}</td>
+                <td><a href="{{ vuelo.aeronave.get_absolute_url }}">{{ vuelo.aeronave.matricula }}</a></td>
+                <td>{{ vuelo.get_estado_display }}</td>
+                <td>{{ vuelo.creado_por.username|default:"—" }}</td>
+                <td>
+                    <a href="{{ vuelo.get_absolute_url }}">Ver</a>
+                    {% if vuelo.modificable %}
+                        {% if perms.vuelos.change_vuelo %}<a href="{% url 'vuelo_update' vuelo.pk %}">Editar</a>{% endif %}
+                        {% if perms.vuelos.delete_vuelo %}<a href="{% url 'vuelo_delete' vuelo.pk %}">Eliminar</a>{% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="7">No hay vuelos registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ vuelos|length }}</p>
+{% endblock %}

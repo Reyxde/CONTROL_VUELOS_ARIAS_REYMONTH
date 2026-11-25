@@ -1,11 +1,19 @@
 {% extends 'vuelos/base.html' %}
-{% block title %}Aerol&iacute;neas | Control de vuelos{% endblock %}
+{% block title %}Listado de aerolíneas{% endblock %}
 {% block content %}
-<h2>Listado de aerol&iacute;neas</h2>
-<p><a href="{% url 'aerolinea_create' %}">Registrar aerol&iacute;nea</a></p>
+<h2>Listado de aerolíneas</h2>
+{% if perms.vuelos.add_aerolinea %}
+    <p><a href="{% url 'aerolinea_create' %}">Nueva aerolínea</a></p>
+{% endif %}
 <table border="1" cellpadding="6">
     <thead>
-        <tr><th>C&oacute;digo</th><th>Nombre</th><th>Pa&iacute;s</th><th>Acciones</th></tr>
+        <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>País</th>
+                <th>N.º de aviones</th>
+            <th>Acciones</th>
+        </tr>
     </thead>
     <tbody>
         {% for aerolinea in aerolineas %}
@@ -13,14 +21,15 @@
                 <td>{{ aerolinea.codigo }}</td>
                 <td>{{ aerolinea.nombre }}</td>
                 <td>{{ aerolinea.pais }}</td>
+                <td>{{ aerolinea.aviones.count }}</td>
                 <td>
                     <a href="{{ aerolinea.get_absolute_url }}">Ver</a>
-                    <a href="{% url 'aerolinea_update' aerolinea.pk %}">Editar</a>
-                    <a href="{% url 'aerolinea_delete' aerolinea.pk %}">Eliminar</a>
+                    {% if perms.vuelos.change_aerolinea %}<a href="{% url 'aerolinea_update' aerolinea.pk %}">Editar</a>{% endif %}
+                    {% if perms.vuelos.delete_aerolinea %}<a href="{% url 'aerolinea_delete' aerolinea.pk %}">Eliminar</a>{% endif %}
                 </td>
             </tr>
         {% empty %}
-            <tr><td colspan="4">No hay aerol&iacute;neas registradas.</td></tr>
+            <tr><td colspan="5">No hay aerolíneas registrados.</td></tr>
         {% endfor %}
     </tbody>
 </table>

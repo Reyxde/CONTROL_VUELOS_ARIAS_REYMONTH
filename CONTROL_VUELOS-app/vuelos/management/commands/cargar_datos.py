@@ -48,7 +48,7 @@ USUARIOS = [  # usuario, clave, grupo (None = superusuario)
 
 
 class Command(BaseCommand):
-    help = 'Carga aerolíneas, aviónes, pasajeros, vuelos y usuarios de prueba.'
+    help = 'Carga aerolíneas, aviones, pasajeros, vuelos y usuarios de prueba.'
 
     def handle(self, *args, **options):
         call_command('crear_grupos', verbosity=0)

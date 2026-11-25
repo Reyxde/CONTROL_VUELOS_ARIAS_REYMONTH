@@ -1,14 +1,23 @@
 {% extends 'vuelos/base.html' %}
-{% block title %}{{ aerolinea.nombre }} | Control de vuelos{% endblock %}
+{% block title %}Detalle de aerolínea{% endblock %}
 {% block content %}
-<h2>{{ aerolinea.nombre }}</h2>
-<dl>
-    <dt>C&oacute;digo</dt><dd>{{ aerolinea.codigo }}</dd>
-    <dt>Pa&iacute;s</dt><dd>{{ aerolinea.pais }}</dd>
-</dl>
+<h2>Detalle de aerolínea: {{ aerolinea }}</h2>
+<ul>
+    <li><strong>Nombre:</strong> {{ aerolinea.nombre }}</li>
+    <li><strong>Código:</strong> {{ aerolinea.codigo }}</li>
+    <li><strong>País:</strong> {{ aerolinea.pais }}</li>
+</ul>
+<h3>Aviones de esta aerolínea</h3>
+<ul>
+    {% for a in aerolinea.aviones.all %}
+        <li><a href="{{ a.get_absolute_url }}">{{ a }}</a> — {{ a.get_estado_display }}</li>
+    {% empty %}
+        <li>Sin aviones registradas.</li>
+    {% endfor %}
+</ul>
 <p>
-    <a href="{% url 'aerolinea_update' aerolinea.pk %}">Editar</a>
-    <a href="{% url 'aerolinea_delete' aerolinea.pk %}">Eliminar</a>
-    <a href="{% url 'aerolinea_list' %}">Volver al listado</a>
+    {% if perms.vuelos.change_aerolinea %}<a href="{% url 'aerolinea_update' aerolinea.pk %}">Editar</a>{% endif %}
+    {% if perms.vuelos.delete_aerolinea %}<a href="{% url 'aerolinea_delete' aerolinea.pk %}">Eliminar</a>{% endif %}
 </p>
+<p><a href="{% url 'aerolinea_list' %}">← Volver al listado</a></p>
 {% endblock %}

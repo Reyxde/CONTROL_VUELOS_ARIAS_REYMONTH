@@ -1,0 +1,32 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Detalle de vuelo{% endblock %}
+{% block content %}
+<h2>Detalle de vuelo: {{ vuelo }}</h2>
+<ul>
+    <li><strong>Código:</strong> {{ vuelo.codigo }}</li>
+    <li><strong>Ruta:</strong> {{ vuelo.origen }} → {{ vuelo.destino }}</li>
+    <li><strong>Salida:</strong> {{ vuelo.fecha_salida|date:"d/m/Y H:i" }}</li>
+    <li><strong>Llegada:</strong> {{ vuelo.fecha_llegada|date:"d/m/Y H:i" }}</li>
+    <li><strong>Estado:</strong> {{ vuelo.get_estado_display }}</li>
+    <li><strong>Puerta:</strong> {{ vuelo.puerta|default:"Por asignar" }}</li>
+    <li><strong>Precio base:</strong> ${{ vuelo.precio_base }}</li>
+    <li><strong>Aeronave:</strong> <a href="{{ vuelo.avion.get_absolute_url }}">{{ vuelo.avion }}</a></li>
+    <li><strong>Aerolínea:</strong> <a href="{{ vuelo.avion.aerolinea.get_absolute_url }}">{{ vuelo.avion.aerolinea }}</a></li>
+    <li><strong>Creado por:</strong> {{ vuelo.creado_por.username|default:"—" }}</li>
+</ul>
+<h3>Pasajeros ({{ vuelo.pasajeros.count }} de {{ vuelo.avion.capacidad }})</h3>
+<ul>
+    {% for p in vuelo.pasajeros.all %}
+        <li><a href="{{ p.get_absolute_url }}">{{ p }}</a> — {{ p.documento }}</li>
+    {% empty %}
+        <li>Sin pasajeros registrados.</li>
+    {% endfor %}
+</ul>
+{% if modificable %}
+    <p>
+        {% if perms.vuelos.change_vuelo %}<a href="{% url 'vuelo_update' vuelo.pk %}">Editar</a>{% endif %}
+        {% if perms.vuelos.delete_vuelo %}<a href="{% url 'vuelo_delete' vuelo.pk %}">Eliminar</a>{% endif %}
+    </p>
+{% endif %}
+<p><a href="{% url 'vuelo_list' %}">← Volver al listado</a></p>
+{% endblock %}

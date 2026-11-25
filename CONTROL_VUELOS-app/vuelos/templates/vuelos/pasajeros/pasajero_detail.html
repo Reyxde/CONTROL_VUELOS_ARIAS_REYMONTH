@@ -1,0 +1,24 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Detalle de pasajero{% endblock %}
+{% block content %}
+<h2>Detalle de pasajero: {{ pasajero }}</h2>
+<ul>
+    <li><strong>Nombre completo:</strong> {{ pasajero.nombre }} {{ pasajero.apellido }}</li>
+    <li><strong>Documento:</strong> {{ pasajero.documento }}</li>
+    <li><strong>Nacionalidad:</strong> {{ pasajero.nacionalidad|default:"—" }}</li>
+    <li><strong>Fecha de nacimiento:</strong> {{ pasajero.fecha_nacimiento|date:"d/m/Y" }}</li>
+</ul>
+<h3>Vuelos en los que viaja</h3>
+<ul>
+    {% for v in pasajero.vuelos.all %}
+        <li><a href="{{ v.get_absolute_url }}">{{ v }}</a> — {{ v.fecha_salida|date:"d/m/Y H:i" }}</li>
+    {% empty %}
+        <li>Sin vuelos asignados.</li>
+    {% endfor %}
+</ul>
+<p>
+    {% if perms.vuelos.change_pasajero %}<a href="{% url 'pasajero_update' pasajero.pk %}">Editar</a>{% endif %}
+    {% if perms.vuelos.delete_pasajero %}<a href="{% url 'pasajero_delete' pasajero.pk %}">Eliminar</a>{% endif %}
+</p>
+<p><a href="{% url 'pasajero_list' %}">← Volver al listado</a></p>
+{% endblock %}

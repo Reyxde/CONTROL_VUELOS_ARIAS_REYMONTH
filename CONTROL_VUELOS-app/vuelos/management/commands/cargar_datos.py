@@ -1,4 +1,3 @@
-"""Carga datos de prueba reproducibles (idempotente)."""
 from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
@@ -92,8 +91,7 @@ class Command(BaseCommand):
                     'estado': est, 'puerta': pue, 'precio_base': pre,
                     'avion': aviones[ae], 'creado_por': usuarios[cre]})
             vuelo.pasajeros.set([pasajeros[i] for i in pas])
-        self.stdout.write(self.style.SUCCESS(
-            'Datos de prueba cargados (ver README para las credenciales).'))
+       
 
     def _usuarios(self):
         usuarios = {}

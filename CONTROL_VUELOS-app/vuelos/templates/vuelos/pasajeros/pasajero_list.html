@@ -1,0 +1,37 @@
+{% extends 'vuelos/base.html' %}
+{% block title %}Listado de pasajeros{% endblock %}
+{% block content %}
+<h2>Listado de pasajeros</h2>
+{% if perms.vuelos.add_pasajero %}
+    <p><a href="{% url 'pasajero_create' %}">Nuevo pasajero</a></p>
+{% endif %}
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+                <th>Documento</th>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Nacionalidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pasajero in pasajeros %}
+            <tr>
+                <td>{{ pasajero.documento }}</td>
+                <td>{{ pasajero.apellido }}</td>
+                <td>{{ pasajero.nombre }}</td>
+                <td>{{ pasajero.nacionalidad|default:"—" }}</td>
+                <td>
+                    <a href="{{ pasajero.get_absolute_url }}">Ver</a>
+                    {% if perms.vuelos.change_pasajero %}<a href="{% url 'pasajero_update' pasajero.pk %}">Editar</a>{% endif %}
+                    {% if perms.vuelos.delete_pasajero %}<a href="{% url 'pasajero_delete' pasajero.pk %}">Eliminar</a>{% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="5">No hay pasajeros registrados.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ pasajeros|length }}</p>
+{% endblock %}

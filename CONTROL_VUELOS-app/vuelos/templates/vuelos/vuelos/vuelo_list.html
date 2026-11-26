@@ -33,7 +33,7 @@
                 <td><a href="{{ vuelo.get_absolute_url }}">{{ vuelo.codigo }}</a></td>
                 <td>{{ vuelo.origen }} → {{ vuelo.destino }}</td>
                 <td>{{ vuelo.fecha_salida|date:"d/m/Y H:i" }}</td>
-                <td><a href="{{ vuelo.aeronave.get_absolute_url }}">{{ vuelo.aeronave.matricula }}</a></td>
+                <td><a href="{{ vuelo.avion.get_absolute_url }}">{{ vuelo.avion.matricula }}</a></td>
                 <td>{{ vuelo.get_estado_display }}</td>
                 <td>{{ vuelo.creado_por.username|default:"—" }}</td>
                 <td>

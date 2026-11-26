@@ -1,12 +1,11 @@
 # CONTROL_VUELOS — Control de vuelos de un aeropuerto
 
-Aplicación web hecha con Django (vistas de función) para gestionar aerolíneas,
-aviones, pasajeros y vuelos de un aeropuerto, con registro e inicio de sesión
+Aplicación para gestionar aerolíneas, aviones, pasajeros y vuelos de un aeropuerto, con registro e inicio de sesión
 de usuarios, grupos y permisos.
 
 - **Autor:** Reymonth Arias
-- **Tema asignado:** Control de vuelos de un aeropuerto
-- **Tecnologías:** Python 3, Django 6.1.3, SQLite
+- **Tema:** Control de vuelos de un aeropuerto
+- **Requisitos:** Python 3, Django 6.1.3, SQLite
 
 ## Modelo de datos (4 tablas)
 
@@ -49,10 +48,6 @@ CONTROL_VUELOS-app/
 ```
 
 ## Cómo levantar el proyecto desde cero
-
-Requisito: Python 3. No hace falta instalar ni configurar ninguna base de datos:
-la aplicación usa SQLite y el archivo `db.sqlite3` se crea solo con `migrate`
-(no se sube al repositorio).
 
 **1. Clonar el repositorio y entrar a la carpeta del proyecto**
 

@@ -6,7 +6,7 @@ de usuarios, grupos y permisos.
 
 - **Autor:** Reymonth Arias
 - **Tema asignado:** Control de vuelos de un aeropuerto
-- **Tecnologías:** Python 3, Django 6.1.3, SQLite (incluida con Python, no requiere instalación)
+- **Tecnologías:** Python 3, Django 6.1.3, SQLite
 
 ## Modelo de datos (4 tablas)
 
@@ -26,10 +26,8 @@ Aerolinea 1 ──< Avion 1 ──< Vuelo >──< Pasajero
 Decisiones de modelado:
 
 - `PROTECT` en `Aerolinea → Avion` y en `Avion → Vuelo`: no se puede borrar una
-  aerolínea con aviones ni un avión con vuelos. La aplicación muestra un mensaje
-  en vez de un error 500.
+  aerolínea con aviones ni un avión con vuelos.
 - `SET_NULL` en `creado_por`: si se elimina un usuario, sus vuelos se conservan.
-- El precio usa `DecimalField` (nunca `FloatField`).
 
 ## Estructura del proyecto
 
@@ -37,12 +35,12 @@ Decisiones de modelado:
 CONTROL_VUELOS-app/
   config/                  settings.py, urls.py, wsgi.py, asgi.py
   vuelos/
-    models/                un archivo por modelo + __init__.py que los re-exporta
+    models/                un archivo por modelo + __init__.py 
     forms/                 un ModelForm por entidad + registro_form.py
     views/                 un archivo de vistas por entidad + auth_views.py
     urls/                  un archivo de urls por entidad
-    templates/vuelos/      plantillas con doble carpeta (vuelos/<entidad>/...)
-    static/vuelos/css/     estilos.css (CSS propio, sin CDN)
+    templates/vuelos/      plantillas 
+    static/vuelos/css/     estilos.css 
     management/commands/   crear_grupos.py, cargar_datos.py
     permisos.py            grupos, permisos y regla de propiedad
     admin.py  apps.py  tests.py  migrations/
@@ -98,19 +96,9 @@ python manage.py cargar_datos
 python manage.py runserver
 ```
 
-Abrir http://127.0.0.1:8000/ (redirige al inicio de sesión).
-El panel de administración está en http://127.0.0.1:8000/admin/.
-
-**Pruebas automáticas:**
-
-```bash
-python manage.py test
-```
-
 ## Datos de prueba
 
-`python manage.py cargar_datos` es reproducible (se puede ejecutar varias veces
-sin duplicar registros) y crea:
+`python manage.py cargar_datos` crea:
 
 | Tabla | Registros |
 |---|---|
@@ -125,12 +113,12 @@ sin duplicar registros) y crea:
 |---|---|---|
 | `admin` | `Admin2026!` | Superusuario (también entra a `/admin/`) |
 | `jefe_vuelos` | `Jefe2026!` | Grupo **administradores** |
-| `operador1` | `Operador2026!` | Grupo **operadores** (creó los vuelos AV101 y LA2045) |
-| `operador2` | `Operador2026!` | Grupo **operadores** (creó los vuelos CM330 y AA907) |
+| `operador1` | `Operador2026!` | Grupo **operadores** |
+| `operador2` | `Operador2026!` | Grupo **operadores** |
 
 ## Grupos y permisos
 
-Los grupos se crean por código (no a mano en el admin): al ejecutar `migrate`
+Los grupos se crean al ejecutar `migrate`
 y también con `python manage.py crear_grupos`.
 
 | Grupo | Puede | No puede |
